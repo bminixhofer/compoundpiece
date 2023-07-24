@@ -72,8 +72,8 @@ def words_to_constituents(words, output_dir):
 @dataclass
 class Args:
     output: str
+    decompound_checkpoint_path: str # path to t5x checkpoint
     train_file: str = "data/raw_text/train.tfrecord"
-    dtype: str = "bfloat16"
     max_length: int = 32
     batch_size: int = 128 * 8
     resolution: int = 16
@@ -81,7 +81,6 @@ class Args:
     per_lang_vocab_size: int = 32768
     num_proc: int = 64
     decompound: bool = False
-    decompound_checkpoint_path: str = "gs://trc-transfer-data/word_segmentation/t5x/segmenterv4-ft-from-100000/checkpoint_1200000"
 
 
 if __name__ == "__main__":
