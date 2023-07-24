@@ -173,3 +173,32 @@ def levenshtein_label(c_word, word, norm_word, tokenizer):
             current_ids = apply_edits(current_ids, all_labels[-1])
 
     return all_input_ids, all_labels
+
+SPLIT_REGEX = re.compile("((?:\p{S}|\p{P})+|\p{Z}+|\n|\t|\r)")
+SEPARATOR_REGEX = re.compile("^(\p{Z}|\n|\t|\r)+$")
+
+
+def segment(text, max_token_length=1000):
+    text = unicodedata.normalize("NFKC", text)
+    assert "\r" not in text
+
+    splits = re.split(SPLIT_REGEX, text)
+
+    tokens = []
+    prefix = False
+
+    for split in splits:
+        if len(split) == 0:
+            continue
+
+        if SEPARATOR_REGEX.match(split):
+            prefix = True
+        elif len(split) > 0:
+            if len(split) > max_token_length:
+                return []
+
+            # temporary, since sentencepiece normalizes it anyway
+            tokens.append((" " if prefix else "", split))
+            prefix = False
+
+    return tokens
