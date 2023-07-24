@@ -16,7 +16,7 @@ from word_segmentation.utils import LANGUAGES, LabelArgs, corrupt_text
 class Args:
     output: str = "data/pretrain"
     valid_percent: int = 0.001
-    gold_valid_path: str = "data/gold/valid.parquet"
+    wiktionary_valid_path: str = "data/wiktionary/valid.parquet"
 
 
 if __name__ == "__main__":
@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     (args,) = HfArgumentParser([Args]).parse_args_into_dataclasses()
 
-    gold_valid_df = pd.read_parquet(args.gold_valid_path)
-    gold_valid_words = set(gold_valid_df["word"].str.lower().tolist())
+    wiktionary_valid_df = pd.read_parquet(args.wiktionary_valid_path)
+    wiktionary_valid_words = set(wiktionary_valid_df["word"].str.lower().tolist())
 
     args.output = Path(args.output)
     args.output.mkdir(exist_ok=True, parents=True)
@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 words_stripped[stripped_word] = (freq, word)
                 dash_word_counts[lang] += 1
 
-            if random.random() < args.valid_percent or word.lower() in gold_valid_words:
+            if random.random() < args.valid_percent or word.lower() in wiktionary_valid_words:
                 valid_data.add((word, lang))
             else:
                 train_data.add((word, lang))
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             if non_dash_word_counts[lang] > dash_word_counts[lang]:
                 break
 
-            if random.random() < args.valid_percent or word.lower() in gold_valid_words:
+            if random.random() < args.valid_percent or word.lower() in wiktionary_valid_words:
                 valid_data.add((word, lang))
             else:
                 train_data.add((word, lang))

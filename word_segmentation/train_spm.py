@@ -12,7 +12,7 @@ import json
 import pickle
 
 from word_segmentation.utils import LANGUAGES, segment
-from get_gold_data import WiktextractCompoundExtractor
+from get_wiktionary_data import WiktextractCompoundExtractor
 
 FEATURE_DESCRIPTION = {
     "text": tf.io.FixedLenFeature([], tf.string, default_value=""),

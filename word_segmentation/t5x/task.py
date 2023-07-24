@@ -4,7 +4,6 @@ import tensorflow as tf
 from functools import partial
 import numpy as np
 import os
-from word_segmentation.utils import LANGUAGES
 
 
 def get_output_features(vocab):

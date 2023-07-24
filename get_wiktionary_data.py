@@ -27,7 +27,7 @@ GERMANET_DATA_PATH = (
 
 @dataclass
 class Args:
-    output_dir: str = "data/gold"
+    output_dir: str = "data/wiktionary"
 
 
 class WiktextractCompoundExtractor:
