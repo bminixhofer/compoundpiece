@@ -12,7 +12,7 @@ from pathlib import Path
 
 tqdm.pandas()
 
-from utils import (
+from word_segmentation.utils import (
     LANGUAGES,
     LabelArgs,
     corrupt_text,

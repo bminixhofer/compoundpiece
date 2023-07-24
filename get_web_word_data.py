@@ -9,7 +9,7 @@ import pandas as pd
 from transformers import HfArgumentParser
 from tqdm.auto import tqdm
 
-from utils import LANGUAGES, LabelArgs, corrupt_text
+from word_segmentation.utils import LANGUAGES, LabelArgs, corrupt_text
 
 
 @dataclass

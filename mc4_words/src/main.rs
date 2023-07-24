@@ -38,10 +38,6 @@ const LANGUAGES: &[&str] = &[
     "sl", "sm", "sn", "so", "sq", "sr", "st", "su", "sv", "sw", "ta", "te", "tg", "th", "tr", "uk",
     "und", "ur", "uz", "vi", "xh", "yi", "yo", "zh", "zu",
 ];
-//const LANGUAGES: &[&str] = &[
-//    "af", "bg", "bn", "ca", "da", "el", "et", "fi", "gl", "he", "hu", "lt", "lv", "pt", "sk", "sq",
-//    "sv", "th", "tr", "uk",
-//];
 
 lazy_static! {
     static ref COMPOUND_SPLIT_CHARS: HashSet<char> = vec!['-', '‐'].into_iter().collect();

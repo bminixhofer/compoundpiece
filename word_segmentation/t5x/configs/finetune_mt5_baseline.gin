@@ -1,0 +1,23 @@
+from t5x import partitioning
+from t5x.examples.t5 import network
+
+include 'word_segmentation/t5x/configs/finetune.gin'
+include '../t5x/t5x/examples/t5/mt5/base.gin'
+
+BATCH_SIZE = 512
+TASK_FEATURE_LENGTHS = {'inputs': 32, 'targets': 32}
+DROPOUT_RATE = 0.1
+USE_CACHED_TASKS = False
+
+seqio.SentencePieceVocabulary.sentencepiece_model_file ="tokenizers/baseline/multilingual.model"
+
+# `LOSS_NORMALIZING_FACTOR`: When fine-tuning a model that was pre-trained
+# using Mesh Tensorflow (e.g. the public T5 / mT5 / ByT5 models), this should be
+# set to `pretraining batch_size` * `target_token_length`. For T5 and T5.1.1:
+# `2048 * 114`. For mT5: `1024 * 229`. For ByT5: `1024 * 189`.
+LOSS_NORMALIZING_FACTOR = 234496
+
+partitioning.PjitPartitioner.num_partitions = 4
+
+network.T5Config:
+  vocab_size = 250240

@@ -1,0 +1,44 @@
+# Register necessary SeqIO Tasks/Mixtures.
+from __gin__ import dynamic_registration
+import seqio
+import t5.data.mixtures
+import __main__ as train_script
+from t5x import utils
+from t5x.examples.t5 import network
+
+import word_segmentation.t5x.task
+
+include '../t5x/t5x/examples/t5/mt5/small.gin'
+include '../t5x/t5x/configs/runs/pretrain.gin'
+
+RANDOM_SEED = 1234
+MIXTURE_OR_TASK_NAME = "our_c4_v220_span_corruption"
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 114}
+TRAIN_STEPS = 8000000
+DROPOUT_RATE = 0.0
+BATCH_SIZE = 256
+USE_CACHED_TASKS = False
+
+seqio.SentencePieceVocabulary.sentencepiece_model_file = "tokenizers/compoundpiece/multilingual.model"
+
+train_eval/utils.DatasetConfig:
+  mixture_or_task_name = %MIXTURE_OR_TASK_NAME
+  task_feature_lengths = %TASK_FEATURE_LENGTHS
+  split = 'valid'
+  batch_size = %BATCH_SIZE
+  shuffle = False
+  seed = 42
+  use_cached = %USE_CACHED_TASKS
+  pack = True
+  module = %MIXTURE_OR_TASK_MODULE
+
+train_script.train:
+  run_eval_before_training = True
+  eval_period = 100000
+  train_eval_dataset_cfg = @train_eval/utils.DatasetConfig()
+
+utils.SaveCheckpointConfig:
+  period = 1000000
+
+network.T5Config:
+  vocab_size = 250240
