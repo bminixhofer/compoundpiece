@@ -25,3 +25,5 @@ Code, models and dataset for the paper [CompoundPiece: Evaluating and Improving 
   - This internally runs inference via [`t5x`](https://github.com/google-research/t5x) so you need to clone the t5x repo.
   - It also needs model checkpoints in t5x models, find these in the `t5x/` directory of the HF model repositories, for example here: https://huggingface.co/benjamin/compoundpiece/tree/main/t5x.
   - The text corpus to train on is expected to be in tfrecord format. Prepare it with this command to reproduce the results from the paper: `python get_web_full_text_data.py --n_shards=1 --n_train_pages=10000000 --out_train_dir=<train_dir> --out_valid_file=<valid_file>`.
+- `word_segmentation/t5x` contains the configs and scripts to train the models from the paper with t5x.
+
